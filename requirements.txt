@@ -5,5 +5,3 @@ seaborn
 wordcloud
 vaderSentiment
 
-
-pip install -r requirements.txt
