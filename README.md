@@ -19,11 +19,11 @@ This is a Streamlit-based web application that allows users to visualize data us
 ```bash
 git clone https://github.com/bhargavi-chauhan/JivaJournal
 cd JivaJournal
-```bash
-2️⃣ **Install dependencies:**
+
+2️⃣ Install dependencies:
 ```bash
 pip install -r requirements.txt
-```bash
-3️⃣ **Run the app:**
+
+3️⃣ Run the app:
 ```bash
 streamlit run app.py
