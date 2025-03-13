@@ -1,3 +1,6 @@
+Access through: 
+🔗https://jivajournal.streamlit.app/
+
 # 📊 Streamlit Data Visualization & Sentiment Analysis App  
 
 This is a Streamlit-based web application that allows users to visualize data using Matplotlib, Seaborn, and WordCloud. It also includes sentiment analysis using VADER Sentiment.
