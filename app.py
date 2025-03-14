@@ -1,221 +1,4 @@
-# # cd C:\Users\bharg\OneDrive\Desktop\DP
 # # streamlit run app.py
-
-# import streamlit as st
-# import pandas as pd
-# import matplotlib.pyplot as plt
-# import seaborn as sns
-# from wordcloud import WordCloud
-# from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
-# import datetime
-# import os
-# import base64
-
-# # Load sentiment analyzer
-# analyzer = SentimentIntensityAnalyzer()
-
-# # File path for storing journal entries
-# FILE_PATH = "journal_entries.csv"
-
-# # Initialize session state
-# if "message" not in st.session_state:
-#     st.session_state.message = ""
-# if "streak" not in st.session_state:
-#     st.session_state.streak = 0
-
-# #Load or initialize journal data
-# if os.path.exists(FILE_PATH):
-#     df = pd.read_csv(FILE_PATH)
-#     df["Date"] = pd.to_datetime(df["Date"])
-# else:
-#     df = pd.DataFrame(columns=["Date", "Entry", "Sentiment", "Ayurveda Tip"])
-
-
-
-# import streamlit as st
-# import base64
-
-# def get_base64_of_bin_file(bin_file):
-#     with open(bin_file, "rb") as f:
-#         data = f.read()
-#     return base64.b64encode(data).decode()
-
-# def set_bg_image(image_file):
-#     base64_str = get_base64_of_bin_file(image_file)
-#     bg_css = f"""
-#     <style>
-#     .stApp {{
-#         background-image: url("data:image/jpg;base64,{base64_str}");
-#         background-repeat: no-repeat;
-#         background-position: center center;
-#         background-size: cover;
-#         background-attachment: fixed;
-#     }}
-
-#     /* Transparent overlay ABOVE content */
-#     .overlay {{
-#         position: fixed;
-#         top: 0;
-#         left: 0;
-#         width: 100%;
-#         height: 100%;
-#         background: rgba(0, 0, 0, 0.3);  /* Adjust transparency */
-#         z-index: 0;  /* Ensures it stays above background but below content */
-#     }}
-
-#     /* Moves Streamlit content above the overlay */
-#     .block-container {{
-#         position: relative;
-#         z-index: 1;
-#     }}
-#     </style>
-
-#     <div class="overlay"></div>
-#     """
-#     st.markdown(bg_css, unsafe_allow_html=True)
-
-# # Set background image with transparent overlay
-# set_bg_image("assets/bgi2.jpg")
-
-# # Set background image with transparent overlay
-# set_bg_image("assets/bgi2.jpg")
-
-# # Streak Logic
-# if not df.empty and df.iloc[-1]["Date"].date() == datetime.date.today():
-#     st.session_state.streak = len(df[df["Date"].dt.date == datetime.date.today()])
-# else:
-#     st.session_state.streak = 0
-
-# # Streamlit UI
-# st.title("🧘‍♀️ JivaJournal - Mindfulness & Ayurveda Journal")
-# st.subheader("Write your daily journal and get AI-powered insights!")
-
-# # Show streak
-# st.info(f"🔥 Journaling Streak: {st.session_state.streak} days in a row!")
-
-# # Show success message if exists
-# if st.session_state.message:
-#     st.success(st.session_state.message)
-#     st.session_state.message = ""
-
-# # User journal input
-# entry = st.text_area("📝 Write about your day:")
-
-# if st.button("Analyze & Save"):
-#     if entry.strip():
-#         # Get sentiment
-#         sentiment_score = analyzer.polarity_scores(entry)["compound"]
-#         sentiment = "Positive" if sentiment_score > 0.05 else "Negative" if sentiment_score < -0.05 else "Neutral"
-
-#         # Ayurveda tips based on sentiment
-#         ayurveda_tips = {
-#             "Positive": "🌿 Maintain balance with a warm herbal tea!",
-#             "Neutral": "🍵 Try deep breathing for better focus.",
-#             "Negative": "🛀 Relax with an oil massage or calming yoga."
-#         }
-#         tip = ayurveda_tips[sentiment]
-
-#         # Personalized Affirmations
-#         affirmations = {
-#             "Positive": "🌞 You are radiating positivity! Keep shining!",
-#             "Neutral": "🌱 Growth happens in stillness. Reflect and thrive.",
-#             "Negative": "💖 Challenges build strength. You're doing great!"
-#         }
-#         affirmation = affirmations[sentiment]
-
-#         # Save entry with timestamp
-#         new_data = {
-#             "Date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-#             "Entry": entry,
-#             "Sentiment": sentiment,
-#             "Ayurveda Tip": tip
-#         }
-#         df = pd.concat([df, pd.DataFrame([new_data])], ignore_index=True)
-#         df.to_csv(FILE_PATH, index=False)
-
-#         # Update streak
-#         st.session_state.streak += 1
-
-#         # Show result
-#         st.session_state.message = f"Sentiment: **{sentiment}**\nAyurveda Tip: {tip}\n💬 Affirmation: {affirmation}"
-#         st.rerun()
-#     else:
-#         st.warning("Please write something before analyzing.")
-
-# # Show previous entries with edit & delete functionality
-# if not df.empty:
-#     st.subheader("📜 Your Journal History")
-
-#     for index, row in df.iterrows():
-#         with st.expander(f"🗓 {row['Date']} - {row['Sentiment']}"):
-#             st.write(f"**Entry:** {row['Entry']}")
-#             st.write(f"**Ayurveda Tip:** {row['Ayurveda Tip']}")
-
-#             # Edit feature
-#             updated_entry = st.text_area(f"Update Entry Here:", row["Entry"], key=f"edit_{index}")
-#             if st.button(f"Save Updated Entry", key=f"save_{index}"):
-#                 if updated_entry.strip():
-#                     sentiment_score = analyzer.polarity_scores(updated_entry)["compound"]
-#                     sentiment = "Positive" if sentiment_score > 0.05 else "Negative" if sentiment_score < -0.05 else "Neutral"
-
-                   
-#                     # Get updated Ayurveda Tip
-#                     ayurveda_tips = {
-#                         "Positive": "🌿 Maintain balance with a warm herbal tea!",
-#                         "Neutral": "🍵 Try deep breathing for better focus.",
-#                         "Negative": "🛀 Relax with an oil massage or calming yoga."
-#                     }
-#                     tip = ayurveda_tips[sentiment]
-
-#                     df.at[index, "Entry"] = updated_entry
-#                     df.at[index, "Sentiment"] = sentiment
-#                     df.at[index, "Ayurveda Tip"] = tip
-#                     df.at[index, "Date"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-#                     df.to_csv(FILE_PATH, index=False)
-#                     st.session_state.message = "Entry updated successfully! Sentiment & Tip recalculated."
-#                     st.rerun()
-#                 else:
-#                     st.session_state.message = "Edited entry cannot be empty!"
-#                     st.rerun()
-
-#             # Delete feature
-#             if st.button(f"Delete Entry", key=f"delete_{index}"):
-#                 df = df.drop(index).reset_index(drop=True)
-#                 df.to_csv(FILE_PATH, index=False)
-#                 st.session_state.message = "Entry deleted successfully!"
-#                 st.rerun()
-
-# # Insights Dashboard
-# st.subheader("📊 Journaling Insights")
-
-# # Sentiment Distribution
-# st.write("### Sentiment Analysis Over Time")
-# fig, ax = plt.subplots(figsize=(10, 4))
-# df["Sentiment_Numeric"] = df["Sentiment"].apply(lambda s: {"Positive": 1, "Neutral": 0, "Negative": -1}[s])
-
-# sns.lineplot(data=df, x="Date", y="Sentiment_Numeric", ax=ax, marker="o", color="blue")
-
-# #sns.lineplot(data=df, x="Date", y=df["Sentiment"].apply(lambda s: {"Positive": 1, "Neutral": 0, "Negative": -1}[s]), ax=ax, marker="o", color="blue")
-# ax.set_ylabel("Sentiment Score")
-# ax.set_xlabel("Date")
-# st.pyplot(fig)
-
-# # Word Cloud
-# st.write("### Word Cloud of Your Journal Entries")
-# text = " ".join(df["Entry"]) if not df.empty else "Start writing to see insights!"
-# wordcloud = WordCloud(width=800, height=400, background_color="white").generate(text)
-# fig, ax = plt.subplots(figsize=(10, 5))
-# ax.imshow(wordcloud, interpolation="bilinear")
-# ax.axis("off")
-# st.pyplot(fig)
-
-# st.subheader("💡 Tips for Consistent Journaling")
-# st.markdown("""
-# - ⏳ **Set a daily reminder** to write for 5 minutes.
-# - 🖊 **Be honest** in your reflections, no judgment.
-# - 🎯 **Set goals** and track patterns in your mood.
-# """)
 
 import streamlit as st
 import pandas as pd
@@ -226,18 +9,89 @@ from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import datetime
 import os
 import base64
+import sqlite3
+import hashlib
 
-# Load sentiment analyzer
-analyzer = SentimentIntensityAnalyzer()
-
-# File path for storing journal entries
-FILE_PATH = "journal_entries.csv"
-
-# Initialize session state
+# Initialize session state variables
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
+if "username" not in st.session_state:
+    st.session_state.username = ""
 if "message" not in st.session_state:
     st.session_state.message = ""
 if "streak" not in st.session_state:
     st.session_state.streak = 0
+
+# Database setup for user authentication
+USER_DB = "users.db"
+conn = sqlite3.connect(USER_DB, check_same_thread=False)
+cursor = conn.cursor()
+cursor.execute(
+    """CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT UNIQUE, password TEXT)"""
+)
+conn.commit()
+
+# Function to hash passwords
+def hash_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
+
+# Function to verify user credentials
+def check_user(username, password):
+    cursor.execute("SELECT password FROM users WHERE username=?", (username,))
+    result = cursor.fetchone()
+    return result and result[0] == hash_password(password)
+
+# Function to register a new user
+def register_user(username, password):
+    try:
+        cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, hash_password(password)))
+        conn.commit()
+        return True
+    except sqlite3.IntegrityError:
+        return False
+
+# User Authentication Page
+def login_page():
+    st.title("🔐 Welcome to JivaJournal")
+    option = st.radio("Choose an option:", ["Login", "Sign Up"])
+
+    if option == "Login":
+        username = st.text_input("Username")
+        password = st.text_input("Password", type="password")
+
+        if st.button("Login"):
+            if check_user(username, password):
+                st.session_state.logged_in = True
+                st.session_state.username = username
+                st.success(f"Welcome back, {username}! 🎉")
+                st.rerun()
+            else:
+                st.error("Invalid credentials. Please try again.")
+
+    elif option == "Sign Up":
+        new_username = st.text_input("Create a Username")
+        new_password = st.text_input("Create a Password", type="password")
+        confirm_password = st.text_input("Confirm Password", type="password")
+
+        if st.button("Sign Up"):
+            if new_password == confirm_password:
+                if register_user(new_username, new_password):
+                    st.success("Account created successfully! 🎉 Please log in.")
+                else:
+                    st.error("Username already exists. Try another one.")
+            else:
+                st.error("Passwords do not match. Please try again.")
+
+# If user is not logged in, show login page
+if not st.session_state.logged_in:
+    login_page()
+    st.stop()  # Stop execution here if user is not logged in
+
+# Load sentiment analyzer
+analyzer = SentimentIntensityAnalyzer()
+
+# File path for storing journal entries (per user)
+FILE_PATH = f"journal_entries_{st.session_state.username}.csv"
 
 # Load or initialize journal data
 if os.path.exists(FILE_PATH):
@@ -247,8 +101,14 @@ else:
     df = pd.DataFrame(columns=["Date", "Entry", "Sentiment", "Ayurveda Tip"])
 
 # Streamlit Sidebar Navigation
-st.sidebar.title("🌿 JivaJournal Navigation")
+st.sidebar.title(f"🌿 JivaJournal - {st.session_state.username}")
 page = st.sidebar.radio("Go to", ["Journaling", "Dashboard", "Dosha Quiz", "Activities"])
+
+# Logout Button
+if st.sidebar.button("Logout"):
+    st.session_state.logged_in = False
+    st.session_state.username = ""
+    st.rerun()
 
 # Function to set background image
 def set_bg_image(image_file):
