@@ -4,4 +4,7 @@ matplotlib
 seaborn
 wordcloud
 vaderSentiment
-
+sqlite3
+hashlib
+base64
+datetime
