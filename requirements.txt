@@ -5,5 +5,4 @@ seaborn
 wordcloud
 vaderSentiment
 pysqlite3
-base64
 datetime
