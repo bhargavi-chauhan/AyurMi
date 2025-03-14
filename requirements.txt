@@ -4,5 +4,5 @@ matplotlib
 seaborn
 wordcloud
 vaderSentiment
-pysqlite3
+pysqlite3-binary
 datetime
