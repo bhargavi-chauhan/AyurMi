@@ -4,5 +4,9 @@ matplotlib
 seaborn
 wordcloud
 vaderSentiment
+nltk
+textblob
+plotly
+feedparser
 pysqlite3-binary
 datetime
