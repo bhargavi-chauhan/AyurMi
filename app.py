@@ -9,8 +9,6 @@ import os
 import base64
 import sqlite3
 import hashlib
-import streamlit as st
-import pandas as pd
 import feedparser
 import nltk
 from textblob import TextBlob
@@ -107,7 +105,7 @@ def analyze_sentiment(text):
 
 # User Authentication Page
 def login_page():
-    st.title("🔐 Welcome to JivaJournal")
+    st.title("Welcome to JivaJournal")
     option = st.radio("Choose an option:", ["Login", "Sign Up"])
 
     if option == "Login":
@@ -155,15 +153,92 @@ if os.path.exists(FILE_PATH):
 else:
     df = pd.DataFrame(columns=["Date", "Entry", "Sentiment", "Ayurveda Tip"])
 
+# # Custom CSS for Sidebar
+# Function to convert image to Base64
+def get_base64_image(image_path):
+    with open(image_path, "rb") as image_file:
+        return base64.b64encode(image_file.read()).decode()
+
+image_path = "assets/sd.jpg"  # Update the correct path to your image
+base64_img = get_base64_image(image_path)  # Convert image to Base64 string
+
+# Inject custom CSS for sidebar styling
+sidebar_css = f"""
+<style>
+    /*Set Sidebar Background */
+    [data-testid="stSidebar"] {{
+        background-image: url("data:image/jpg;base64,{base64_img}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }}
+
+    /* Sidebar Title Styling */
+    [data-testid="stSidebar"] h1 {{
+        color: white !important;
+        text-align: left;
+        font-weight: bold;
+    }}
+
+
+    /* Make Sidebar Radio Button Labels White */
+    .stRadio label {{
+        color: white !important;
+        font-size: 16px;
+    }}
+
+    /* Streamlit Button Styling (Logout Button) */
+    div.stButton > button {{
+        background-color: brown !important;
+        color: white !important;
+        border-radius: 8px;
+        padding: 10px;
+        font-size: 16px;
+        width: 30%;
+        transition: background-color 0.3s ease;
+        border: none;
+    }}
+
+    div.stButton > button:hover {{
+        background-color: darkred !important;
+    }}
+
+    /* Ensure Other Sidebar Text is White Except Buttons */
+    [data-testid="stSidebar"] *:not(.stButton > button):not(.logout-button) {{
+        color: white !important;
+    }}
+
+    /* 🌟 Ensure Sidebar Starts Below Navbar */
+    [data-testid="stSidebar"] {{
+        margin-top: 3.6rem; /* Adjust as needed to match the navbar height */
+    }}
+
+    # /* 🌟 Make Navbar Background White */
+    # header[data-testid="stHeader"] {{
+    #     background-color: white !important;
+    #     height: 3.5rem; /* Adjust based on your navbar size */
+    #     position: fixed;
+    #     width: 100%;
+    #     top: 0;
+    #     z-index: 100;
+    #     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Adds slight shadow */
+    # }}
+</style>
+"""
+
+st.markdown(sidebar_css, unsafe_allow_html=True)
+
+
 # Streamlit Sidebar Navigation
-st.sidebar.title(f"🌿 JivaJournal - {st.session_state.username}")
+st.sidebar.title(f"JivaJournal - ☻{st.session_state.username}")
 page = st.sidebar.radio("Go to", ["Journaling", "Dashboard", "Dosha Quiz", "Activities", "Recommendations"])
 
-# Logout Button
-if st.sidebar.button("Logout"):
+# ogout Button 
+logout_clicked = st.sidebar.button("Logout", key="logout_button")
+if logout_clicked:
     st.session_state.logged_in = False
     st.session_state.username = ""
-    st.rerun()
+    st.rerun()  # Refresh the page
 
 # Function to set background image
 def set_bg_image(image_file):
@@ -183,11 +258,11 @@ def set_bg_image(image_file):
     st.markdown(bg_css, unsafe_allow_html=True)
 
 # Set background image
-set_bg_image("assets/bg_img.jpg")
+set_bg_image("assets/bg-copy.jpg")
 
 # # Page 1: Journaling
 if page == "Journaling":
-    st.title("🧘‍♀️ JivaJournal - Mindfulness & Ayurveda Journal")
+    st.title("JivaJournal - Mindfulness & Ayurveda Journal")
     st.subheader("Write your daily journal and get AI-powered insights!")
 
     # Journaling streak
@@ -204,7 +279,7 @@ if page == "Journaling":
         st.session_state.message = ""
 
     # User journal input
-    entry = st.text_area("📝 Write about your day:")
+    entry = st.text_area("Write about your day:")
 
     if st.button("Analyze & Save"):
         if entry.strip():
@@ -247,7 +322,7 @@ if page == "Journaling":
 
     # Show previous entries
     if not df.empty:
-        st.subheader("📜 Your Journal History")
+        st.subheader("Your Journal History")
 
         for index, row in df.iterrows():
             with st.expander(f"🗓 {row['Date']} - {row['Sentiment']}"):
@@ -287,7 +362,7 @@ if page == "Journaling":
                     st.session_state.message = "Entry deleted successfully!"
                     st.rerun()
 
-# # Page 2: Dashboard
+# Page 2: Dashboard
 elif page == "Dashboard":
     # Apply Custom Styling
     st.markdown("""
@@ -316,12 +391,12 @@ elif page == "Dashboard":
     df["Sentiment_Numeric"] = df["Sentiment"].map(sentiment_map)
 
     # --- 📊 PAGE: DASHBOARD ---
-    st.title("📊 Your Mindfulness Dashboard")
+    st.title("Your Mindfulness Dashboard")
     st.markdown("🌿 Get insights into your journaling habits and emotional well-being!")
 
     if not df.empty:
         # --- 🌟 Sentiment Summary ---
-        st.subheader("💡 Mood Summary")
+        st.subheader("Mood Summary")
         col1, col2, col3 = st.columns(3)
         with col1:
             st.metric("😊 Positive Entries", df[df["Sentiment"] == "Positive"].shape[0])
@@ -331,7 +406,7 @@ elif page == "Dashboard":
             st.metric("😢 Negative Entries", df[df["Sentiment"] == "Negative"].shape[0])
 
         # --- 📈 Sentiment Trends Over Time ---
-        st.subheader("📅 Sentiment Analysis Over Time")
+        st.subheader("Sentiment Analysis Over Time")
         fig = px.line(df, x="Date", y="Sentiment_Numeric", 
                     markers=True, line_shape="spline", 
                     title="Your Mood Journey", 
@@ -340,7 +415,7 @@ elif page == "Dashboard":
         st.plotly_chart(fig, use_container_width=True)
 
         # --- ☁️ Word Cloud for Journal Entries ---
-        st.subheader("🌟 Most Frequent Words in Your Journal")
+        st.subheader("Most Frequent Words in Your Journal")
         all_text = " ".join(df["Entry"].dropna())
         if all_text.strip():
             wordcloud = WordCloud(width=1000, height=500, background_color="white", colormap="viridis").generate(all_text)
@@ -352,7 +427,7 @@ elif page == "Dashboard":
             st.info("No journal entries available yet to generate a word cloud.")
 
         # --- 📅 Monthly Mood Trends ---
-        st.subheader("📅 Monthly Mood Tracker")
+        st.subheader("Monthly Mood Tracker")
         mood_trends = df.groupby(["Month", "Sentiment"]).size().unstack().fillna(0).reset_index()
         mood_trends_long = mood_trends.melt(id_vars="Month", var_name="Sentiment", value_name="Count")
         
@@ -364,7 +439,6 @@ elif page == "Dashboard":
 
     else:
         st.warning("📌 No journal entries yet. Start writing to see your progress!")
-
 
 # Page 3: Dosha Quiz
 elif page == "Dosha Quiz":
@@ -500,7 +574,7 @@ elif page == "Dosha Quiz":
         ]}
     ]
 
-    st.title("🧘 Discover Your Ayurveda Dosha")
+    st.title("Discover Your Ayurveda Dosha")
     st.write("Answer the following questions to determine your Dosha type!")
 
 
@@ -534,7 +608,7 @@ elif page == "Dosha Quiz":
 
 # Page 4: Activities
 elif page == "Activities":
-    st.title("🏃‍♂️🎯 Activities for Well-being")
+    st.title("Activities for Well-being")
 
     category = st.selectbox("Choose a category:", ["Yoga", "Breathing", "Meditation", "Diet", "Lifestyle"])
     level = st.radio("Select difficulty level:", ["Beginner", "Intermediate", "Advanced"])
@@ -596,15 +670,14 @@ elif page == "Activities":
             st.video("https://www.youtube.com/watch?v=1nP5oedmzkM")
 
 
-
 # PAGE 5: AI-Powered Recommendations
 elif page == "Recommendations":
-    st.title("📚 AI-Powered Health & Wellness Recommendations")
+    st.title("AI-Powered Health & Wellness Recommendations")
 
     # Fetch AI-based personalized suggestions
     user_keywords = analyze_journal_entries()
     if user_keywords:
-        st.subheader("🔍 Personalized Suggestions")
+        st.subheader("Personalized Suggestions")
         st.write(f"Based on your journal, you seem interested in: **{', '.join(user_keywords)}**")
         
         ai_articles = {
@@ -618,13 +691,13 @@ elif page == "Recommendations":
                 st.markdown(f"🔗 [{title}]({link})")
 
     # Fetch Latest Articles
-    st.subheader("📰 Latest Wellness Articles")
+    st.subheader("Latest Wellness Articles")
     latest_articles = get_latest_articles()
     for article in latest_articles:
         st.markdown(f"📌 [{article['title']}]({article['link']})")
 
     # Specialist Connections
-    st.subheader("🩺 Connect with Wellness Experts")
+    st.subheader("Connect with Wellness Experts")
     specialists = {
         "Find Ayurvedic Doctors": "https://www.nama-ayurveda.org/Find-a-Practitioner",
         "Yoga & Mindfulness Coaches": "https://www.yogaalliance.org/",
@@ -634,7 +707,6 @@ elif page == "Recommendations":
         st.markdown(f"🌟 [{title}]({link})")
 
     st.success("Stay informed and take care of your well-being! 💙")
-
 
 # else:
 #     st.warning("Page not found!")
