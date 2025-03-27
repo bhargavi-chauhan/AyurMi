@@ -10,3 +10,4 @@ plotly
 feedparser
 pysqlite3-binary
 datetime
+pytz 
