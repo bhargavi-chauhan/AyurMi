@@ -289,9 +289,9 @@ if page == "Journaling":
 
             # Ayurveda tips based on sentiment
             ayurveda_tips = {
-                "Positive": "🌿 Maintain balance with a warm herbal tea!",
-                "Neutral": "🍵 Try deep breathing for better focus.",
-                "Negative": "🛀 Relax with an oil massage or calming yoga."
+                "Positive": "🌿 Stay hydrated and eat fresh fruits",
+                "Neutral": "🍵 Take a short walk or do deep breathing.",
+                "Negative": "🛀 Unwind with a warm bath and rest well."
             }
             tip = ayurveda_tips[sentiment]
 
@@ -319,7 +319,6 @@ if page == "Journaling":
         else:
             st.warning("Please write something before analyzing.")
 
-
     # Show previous entries
     if not df.empty:
         st.subheader("Your Journal History")
@@ -338,9 +337,9 @@ if page == "Journaling":
 
                         # Ayurveda tips based on sentiment
                         ayurveda_tips = {
-                            "Positive": "🌿 Maintain balance with a warm herbal tea!",
-                            "Neutral": "🍵 Try deep breathing for better focus.",
-                            "Negative": "🛀 Relax with an oil massage or calming yoga."
+                            "Positive": "🌿 Stay hydrated and eat fresh fruits",
+                            "Neutral": "🍵 Take a short walk or do deep breathing.",
+                            "Negative": "🛀 Unwind with a warm bath and rest well."
                         }
                         tip = ayurveda_tips[sentiment]
 
@@ -618,8 +617,8 @@ elif page == "Activities":
     # Yoga Activities
     if category == "Yoga":
         if level == "Beginner":
-            st.video("https://www.youtube.com/watch?v=v7AYKMP6rOE")  #
-            st.video("https://youtu.be/bJJWArRfKa0") 
+            st.video("https://youtu.be/bJJWArRfKa0")
+            st.video("https://www.youtube.com/watch?v=v7AYKMP6rOE")  # 
         elif level == "Intermediate":
             st.video("https://youtu.be/LphBXB0KfxU")  # 15 Minute Energizing Yoga Flow (Morning Routine)
             st.video("https://youtu.be/KPG1tJW8dwQ") 
