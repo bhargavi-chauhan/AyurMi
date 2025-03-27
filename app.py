@@ -14,6 +14,7 @@ import nltk
 from textblob import TextBlob
 from collections import Counter
 import plotly.express as px
+import pytz
 
 nltk.download('punkt')
 
@@ -295,13 +296,20 @@ if page == "Journaling":
             }
             tip = ayurveda_tips[sentiment]
 
-            # Save entry with timestamp
+            # Get current UTC time
+            utc_now = datetime.datetime.utcnow()
+
+            # Convert UTC to IST (Indian Standard Time)
+            ist = pytz.timezone("Asia/Kolkata")
+            local_time = utc_now.astimezone(ist)
+
+            # Save entry with corrected timestamp
             new_data = {
-                "Date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "Date": local_time.strftime("%Y-%m-%d %H:%M:%S"),  # Stores in IST
                 "Entry": entry,
                 "Sentiment": sentiment,
                 "Ayurveda Tip": tip
-            }
+            }  
 
             df = pd.concat([df, pd.DataFrame([new_data])], ignore_index=True)
             df.to_csv(FILE_PATH, index=False)
@@ -314,7 +322,7 @@ if page == "Journaling":
             st.session_state.streak += 1
 
             # Show result
-            st.session_state.message = f"Sentiment: **{sentiment}**\nAyurveda Tip: {tip}"
+            st.session_state.message = f"Sentiment: **{sentiment}**\n; Ayurveda Tip: {tip}"
             st.rerun()
         else:
             st.warning("Please write something before analyzing.")
