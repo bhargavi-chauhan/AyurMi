@@ -351,10 +351,13 @@ if page == "Journaling":
                         }
                         tip = ayurveda_tips[sentiment]
 
+                        ist = pytz.timezone("Asia/Kolkata")
+                        current_time = datetime.datetime.now(ist).strftime("%Y-%m-%d %H:%M:%S")
+                        
                         df.at[index, "Entry"] = updated_entry
                         df.at[index, "Sentiment"] = sentiment
                         df.at[index, "Ayurveda Tip"] = tip
-                        df.at[index, "Date"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                        df.at[index, "Date"] = current_time
 
                         df.to_csv(FILE_PATH, index=False)
                         st.session_state.message = "Entry updated successfully!"
