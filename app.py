@@ -736,7 +736,7 @@ elif page == "Mood & Mind Chat":
 
     journal_text = st.text_area("Start writing...")
 
-    if st.button("💾 Save to Journal"):
+    if st.button("Save to Journal"):
         if journal_text.strip():
             # Analyze sentiment
             sentiment_score = analyzer.polarity_scores(journal_text)["compound"]
@@ -768,7 +768,7 @@ elif page == "Mood & Mind Chat":
             df = pd.concat([df, pd.DataFrame([new_data])], ignore_index=True)
             df.to_csv(FILE_PATH, index=False)
 
-            st.success("✅ Your entry has been saved and will appear in your Journal & Dashboard.")
+            st.success("Your entry has been saved!")
         else:
             st.warning("Please paste or type your journal entry before saving.")
 
