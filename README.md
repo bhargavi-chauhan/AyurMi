@@ -1,13 +1,13 @@
 Access through: 
 🔗https://ayurmi.streamlit.app/
 
-# 📊 Streamlit Data Visualization & Sentiment Analysis App  
+# Streamlit Data Visualization & Sentiment Analysis App  
 
 This is a Streamlit-based web application that allows users to visualize data using Matplotlib, Seaborn, and WordCloud. It also includes sentiment analysis using VADER Sentiment.
 
 ---
 
-## 🚀 Features  
+## Features  
 
 ✅ Interactive visualizations with **Matplotlib** & **Seaborn**  
 ✅ WordCloud generation for textual analysis  
@@ -16,12 +16,12 @@ This is a Streamlit-based web application that allows users to visualize data us
 
 ---
 
-## 📦 Installation  
+## Installation  
 
 1️⃣ Clone this repository: 
 ```bash
-git clone https://github.com/bhargavi-chauhan/JivaJournal
-cd JivaJournal
+git clone https://github.com/bhargavi-chauhan/AyurMi
+cd AyurMi
 ```
 2️⃣ Install dependencies:
 ```bash
