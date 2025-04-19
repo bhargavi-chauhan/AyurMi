@@ -1,5 +1,5 @@
 Access through: 
-🔗https://jivajournal.streamlit.app/
+🔗https://ayurmi.streamlit.app/
 
 # 📊 Streamlit Data Visualization & Sentiment Analysis App  
 
