@@ -725,7 +725,7 @@ elif page == "Mood & Mind Chat":
     </style>
     <df-messenger
     intent="WELCOME"
-    chat-title="AyurWellnessBot"
+    chat-title="AyurMi Bot"
     agent-id="61d9d626-beb0-4e6e-ae47-c8cad607c4b8"
     language-code="en">
     </df-messenger>
