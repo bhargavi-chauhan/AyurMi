@@ -196,7 +196,7 @@ sidebar_css = f"""
         border-radius: 8px;
         padding: 10px;
         font-size: 16px;
-        width: 30%;
+        width: 100%;
         transition: background-color 0.3s ease;
         border: none;
     }}
@@ -812,3 +812,4 @@ elif page == "Recommendations":
 
 # else:
 #     st.warning("Page not found!")
+
